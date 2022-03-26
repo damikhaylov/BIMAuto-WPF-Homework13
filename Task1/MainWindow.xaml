@@ -1,0 +1,69 @@
+﻿<Window x:Class="Task1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Task1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Style="{DynamicResource BaseStyle}">
+    <Window.CommandBindings>
+        <CommandBinding Command="Open" Executed="OpenExecuted"/>
+        <CommandBinding Command="Save" Executed="SaveExecuted"/>
+        <CommandBinding Command="local:TextEditorCommands.Exit" Executed="ExitExecuted"/>
+        <CommandBinding Command="local:TextEditorCommands.SetLightTheme" Executed="SetLightThemeExecuted"/>
+        <CommandBinding Command="local:TextEditorCommands.SetDarkTheme" Executed="SetDarkThemeExecuted"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Margin="1" Padding="5" Style="{DynamicResource MenuStyle}">
+            <MenuItem Header="_Файл">
+                <MenuItem Command="Open" Style="{DynamicResource MenuStyle}"/>
+                <MenuItem Command="Save" Style="{DynamicResource MenuStyle}"/>
+                <Separator Style="{DynamicResource MenuStyle}"/>
+                <MenuItem Command="local:TextEditorCommands.Exit" Style="{DynamicResource MenuStyle}"/>
+            </MenuItem>
+            <MenuItem Header="_Правка">
+                <MenuItem Command="Cut" CommandTarget="{Binding ElementName=textBox}" Style="{DynamicResource MenuStyle}"/>
+                <MenuItem Command="Copy" CommandTarget="{Binding ElementName=textBox}" Style="{DynamicResource MenuStyle}"/>
+                <MenuItem Command="Paste" CommandTarget="{Binding ElementName=textBox}" Style="{DynamicResource MenuStyle}"/>
+            </MenuItem>
+            <MenuItem Header="_Вид">
+                <MenuItem Command="local:TextEditorCommands.SetLightTheme" Style="{DynamicResource MenuStyle}"/>
+                <MenuItem Command="local:TextEditorCommands.SetDarkTheme" Style="{DynamicResource MenuStyle}"/>
+            </MenuItem>
+        </Menu>
+        <ToolBarTray Grid.Row="1" Style="{DynamicResource ToolBarStyle}">
+            <ToolBar Margin="1" Padding="0" Style="{DynamicResource ToolBarStyle}">
+                <ComboBox x:Name="comboBoxFontFamily" Margin="5" Padding="5" SelectedIndex="0" Width="200" ItemsSource="{StaticResource FontFamilies}" Style="{DynamicResource BaseStyle}"/>
+
+                <ComboBox x:Name="comboBoxFontSize" Margin="5" Padding="5" SelectedIndex="2" Width="50" ItemsSource="{StaticResource FontSizes}" Style="{DynamicResource BaseStyle}"/>
+            </ToolBar>
+            <ToolBar Margin="1" Padding="0" Style="{DynamicResource ToolBarStyle}">
+                <Button Click="Button_Bold_Click">
+                    <Image Source="Data/format_text_bold.png" Width="32" Height="32"/>
+                </Button>
+                <Separator/>
+                <Button Click="Button_Italic_Click">
+                    <Image Source="Data/format_text_italic.png" Width="32" Height="32"/>
+                </Button>
+                <Separator/>
+                <Button Click="Button_Underline_Click">
+                    <Image Source="Data/format_text_underline.png" Width="32" Height="32"/>
+                </Button>
+            </ToolBar>
+            <ToolBar Margin="1" Padding="0" Style="{DynamicResource ToolBarStyle}">
+                <StackPanel VerticalAlignment="Center">
+                    <RadioButton Content="Чёрный" IsChecked="True" Checked="RadioButton_Black_Checked" Style="{DynamicResource RadioStyle}"/>
+                    <RadioButton Content="Красный" Checked="RadioButton_Red_Checked" Style="{DynamicResource RadioStyle}"/>
+                </StackPanel>
+            </ToolBar>
+        </ToolBarTray>
+        <TextBox Name="textBox" Grid.Row="2" Margin="3" Padding="5" 
+                 FontFamily="{Binding ElementName=comboBoxFontFamily, Path=SelectedItem}" FontSize="{Binding ElementName=comboBoxFontSize, Path=SelectedItem}" 
+                 TextWrapping="Wrap" AcceptsReturn="True" Style="{DynamicResource BaseStyle}"/>
+    </Grid>
+</Window>
